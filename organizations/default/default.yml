@@ -3,6 +3,7 @@ name: "default name"
 slug: "default"
 
 settings:
+  prefered_login_method: all
   mobile_phone_verification: false
   subscriptions: false
 

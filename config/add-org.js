@@ -61,6 +61,18 @@ const prompts = [
     },
   },
   {
+    type: "input",
+    name: "prefered_login_method",
+    message: "What is the prefered login method? (email, phone_number, username, all)",
+    validate: (value) => {
+      if (/.+/.test(value) && ["email", "phone_number", "username", "all"].includes(value)) {
+        return true;
+      }
+      return "The prefered login method must be one of: email, phone_number, username, all";
+    },
+    default: 'all',
+  },
+  {
     type: "confirm",
     name: "radius_realms",
     message: "Does this organization support REALMs or Radius proxy?",
@@ -228,6 +240,7 @@ const createConfigurationWithoutPrompts = (passedData) => {
     "slug",
     "uuid",
     "secret_key",
+    "prefered_login_method",
     "mobile_phone_verification",
     "subscriptions",
     "login_action_url",
