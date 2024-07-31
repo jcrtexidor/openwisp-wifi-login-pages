@@ -1,6 +1,7 @@
 export const prefix = "/api/v1";
 export const confirmApiUrl = `${prefix}/{orgSlug}/account/password/reset/confirm`;
 export const loginApiUrl = (orgSlug) => `${prefix}/${orgSlug}/account/token`;
+export const loginApiTokenUrl = (orgSlug) => `${prefix}/${orgSlug}/account/access_token`;
 export const passwordChangeApiUrl = `${prefix}/{orgSlug}/account/password/change`;
 export const registerApiUrl = `${prefix}/{orgSlug}/account/`;
 export const resetApiUrl = `${prefix}/{orgSlug}/account/password/reset/`;
@@ -24,3 +25,7 @@ export const plansApiUrl = `${prefix}/{orgSlug}/plan/`;
 export const upgradePlanApiUrl = `${prefix}/{orgSlug}/plan/upgrade`;
 export const modalContentUrl = (orgSlug) => `${prefix}/${orgSlug}/modal`;
 export const mainToastId = "main_toast_id";
+
+
+export const createPhoneLoginOTPUrl = (orgSlug) => `${prefix}/${orgSlug}/account/phone_login/otp`;
+export const phoneLoginApiUrl = (orgSlug) => `${prefix}/${orgSlug}/account/phone_login/token`;

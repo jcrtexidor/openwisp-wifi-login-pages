@@ -3,11 +3,11 @@
 import "./index.css";
 
 import PropTypes from "prop-types";
-import React, {Suspense} from "react";
-import {Cookies} from "react-cookie";
-import {Helmet} from "react-helmet";
-import {Navigate, Route, Routes} from "react-router-dom";
-import {t} from "ttag";
+import React, { Suspense } from "react";
+import { Cookies } from "react-cookie";
+import { Helmet } from "react-helmet";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { t } from "ttag";
 
 import getAssetPath from "../../utils/get-asset-path";
 import Header from "../header";
@@ -17,6 +17,7 @@ import Loader from "../../utils/loader";
 import needsVerify from "../../utils/needs-verify";
 import loadTranslation from "../../utils/load-translation";
 import Login from "../login";
+import MobileLogin from "../mobile-login";
 import {
   Registration,
   Status,
@@ -31,7 +32,7 @@ import {
   DoesNotExist,
 } from "./lazy-import";
 import Logout from "./lazy-logout";
-import {localStorage} from "../../utils/storage";
+import { localStorage } from "../../utils/storage";
 import isOldBrowser from "../../utils/is-old-browser";
 
 export default class OrganizationWrapper extends React.Component {
@@ -46,15 +47,15 @@ export default class OrganizationWrapper extends React.Component {
   }
 
   async componentDidMount() {
-    const {params, setOrganization, cookies} = this.props;
+    const { params, setOrganization, cookies } = this.props;
     const organizationSlug = params.organization;
     if (organizationSlug) await setOrganization(organizationSlug, cookies);
-    this.setState({translationLoaded: false, configLoaded: true});
+    this.setState({ translationLoaded: false, configLoaded: true });
   }
 
   async componentDidUpdate(prevProps) {
-    const {setOrganization, params, cookies, language} = this.props;
-    const {translationLoaded, configLoaded} = this.state;
+    const { setOrganization, params, cookies, language } = this.props;
+    const { translationLoaded, configLoaded } = this.state;
     if (prevProps.params.organization !== params.organization) {
       if (params.organization) setOrganization(params.organization, cookies);
     }
@@ -74,11 +75,11 @@ export default class OrganizationWrapper extends React.Component {
   }
 
   setLoading = (value) => {
-    this.setState({loading: value});
+    this.setState({ loading: value });
   };
 
   loadLanguage = async (language, orgSlug, useBrowserLang = false) => {
-    const {languages, defaultLanguage, setLanguage} = this.props;
+    const { languages, defaultLanguage, setLanguage } = this.props;
     await loadTranslation(
       language,
       orgSlug,
@@ -92,13 +93,13 @@ export default class OrganizationWrapper extends React.Component {
         translationLoaded: true,
         configLoaded: false,
       },
-      () => this.setState({configLoaded: true}), // to force re-render in child components
+      () => this.setState({ configLoaded: true }), // to force re-render in child components
     );
   };
 
   render() {
-    const {organization, params, cookies, location, navigate} = this.props;
-    const {loading, translationLoaded, configLoaded} = this.state;
+    const { organization, params, cookies, location, navigate } = this.props;
+    const { loading, translationLoaded, configLoaded } = this.state;
     const {
       favicon,
       isAuthenticated,
@@ -110,14 +111,17 @@ export default class OrganizationWrapper extends React.Component {
       css_path: cssPath,
       js,
     } = organization.configuration;
-    const {is_active} = userData;
-    let {css} = organization.configuration;
+
+    const prefered_login_method = settings?.prefered_login_method;
+
+    const { is_active } = userData;
+    let { css } = organization.configuration;
     if (!css) css = [];
     if (cssPath) css.push(cssPath);
     const userAutoLogin = localStorage.getItem("userAutoLogin") === "true";
     const needsVerifyPhone = needsVerify("mobile_phone", userData, settings);
     if (organization.exists === true) {
-      const {setLoading} = this;
+      const { setLoading } = this;
       let extraClasses = "";
       if (loading) extraClasses += " no-scroll";
       if (isOldBrowser()) extraClasses += " oldbrowser";
@@ -125,7 +129,7 @@ export default class OrganizationWrapper extends React.Component {
         <>
           {translationLoaded && configLoaded ? (
             <LoadingContext.Provider
-              value={{setLoading, getLoading: () => loading}}
+              value={{ setLoading, getLoading: () => loading }}
             >
               <div className={`app-container ${extraClasses}`}>
                 <Routes>
@@ -224,6 +228,10 @@ export default class OrganizationWrapper extends React.Component {
                     }
                   />
                   <Route
+                    path="mobile-login/*"
+                    element={<MobileLogin navigate={navigate} />}
+                  />
+                  <Route 
                     path="status"
                     element={(() => {
                       if (isAuthenticated && needsVerifyPhone)

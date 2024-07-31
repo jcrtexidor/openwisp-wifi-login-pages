@@ -1,0 +1,58 @@
+.register p {
+  margin-top: 0;
+  text-align: center;
+}
+.social-links {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.social-links p {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+.social-links p:last-child {
+  margin-bottom: 10px;
+}
+a.social-link .inner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  min-width: 200px;
+  justify-content: center;
+}
+a.social-link .icon {
+  width: auto;
+  height: 24px;
+}
+a.social-link .text {
+  line-height: 24px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+div.remember-me {
+  margin-bottom: 0;
+}
+#login .intro,
+#login .ending,
+#login .pre-content {
+  width: 100%;
+}
+.container.intro {
+  flex-grow: 0;
+}
+.remember-me input {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  bottom: -2px;
+  margin-right: 7px;
+}
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  #remember_me {
+    width: 25px;
+    height: 25px;
+    bottom: -6px;
+  }
+}

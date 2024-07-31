@@ -5,6 +5,7 @@ const paths = {
   password_reset_confirm: "/account/password/reset/confirm",
   registration: "/account",
   user_auth_token: "/account/token",
+  user_auth_access_token: "/account/access_token",
   validate_auth_token: "/account/token/validate",
   user_radius_sessions: "/account/session",
   user_radius_usage: "/account/usage",
@@ -15,6 +16,7 @@ const paths = {
   mobile_phone_number_change: "/account/phone/change",
   plans: "/plan",
   payment_status: "/payment/{paymentId}/status",
+  phone_login_otp: "/account/phone_login/otp",
 };
 
 const reverse = (name, orgSlug) => {

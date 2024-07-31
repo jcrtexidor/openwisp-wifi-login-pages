@@ -7,6 +7,8 @@ import registration from "../controllers/registration-controller";
 import getUserRadiusSessions from "../controllers/user-radius-sessions-controller";
 import getUserRadiusUsage from "../controllers/user-radius-usage-controller";
 import validateToken from "../controllers/validate-token-controller";
+import  obtainPhoneLoginOTP from "../controllers/obtain-phone-login-otp-controller";
+
 import {
   createMobilePhoneToken,
   verifyMobilePhoneToken,
@@ -29,5 +31,7 @@ router.post("/phone/token", errorHandler(createMobilePhoneToken));
 router.get("/phone/token/status", errorHandler(mobilePhoneTokenStatus));
 router.post("/phone/verify", errorHandler(verifyMobilePhoneToken));
 router.post("/phone/change", errorHandler(mobilePhoneNumberChange));
+router.post("/phone_login/otp", errorHandler(obtainPhoneLoginOTP));
+router.post("/phone_login/token", errorHandler(obtainPhoneLoginOTP));
 
 export default router;
