@@ -17,6 +17,7 @@ const paths = {
   plans: "/plan",
   payment_status: "/payment/{paymentId}/status",
   phone_login_otp: "/account/phone_login/otp",
+  phone_login_token: "/account/phone_login/token",
 };
 
 const reverse = (name, orgSlug) => {

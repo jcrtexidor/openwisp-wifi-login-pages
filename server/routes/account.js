@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import obtainToken from "../controllers/obtain-token-controller";
 import passwordChange from "../controllers/password-change-controller";
 import passwordResetConfirm from "../controllers/password-reset-confirm-controller";
@@ -7,17 +7,12 @@ import registration from "../controllers/registration-controller";
 import getUserRadiusSessions from "../controllers/user-radius-sessions-controller";
 import getUserRadiusUsage from "../controllers/user-radius-usage-controller";
 import validateToken from "../controllers/validate-token-controller";
-import  obtainPhoneLoginOTP from "../controllers/obtain-phone-login-otp-controller";
-
-import {
-  createMobilePhoneToken,
-  verifyMobilePhoneToken,
-  mobilePhoneTokenStatus,
-} from "../controllers/mobile-phone-token-controller";
+import { createMobilePhoneToken, verifyMobilePhoneToken, mobilePhoneTokenStatus, } from "../controllers/mobile-phone-token-controller";
 import mobilePhoneNumberChange from "../controllers/mobile-phone-number-change-controller";
 import errorHandler from "../utils/error-handler";
 
-const router = Router({mergeParams: true});
+import { obtainPhoneLoginOTP, phoneLogin } from "../controllers/phone-login-controller";
+const router = Router({ mergeParams: true });
 
 router.post("/token", errorHandler(obtainToken));
 router.post("/token/validate", errorHandler(validateToken));
@@ -32,6 +27,6 @@ router.get("/phone/token/status", errorHandler(mobilePhoneTokenStatus));
 router.post("/phone/verify", errorHandler(verifyMobilePhoneToken));
 router.post("/phone/change", errorHandler(mobilePhoneNumberChange));
 router.post("/phone_login/otp", errorHandler(obtainPhoneLoginOTP));
-router.post("/phone_login/token", errorHandler(obtainPhoneLoginOTP));
+router.post("/phone_login/token", errorHandler(phoneLogin));
 
 export default router;

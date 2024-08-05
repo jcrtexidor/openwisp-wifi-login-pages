@@ -9,7 +9,6 @@ import reverse from "../utils/openwisp-urls";
 import getSlug from "../utils/get-slug";
 import sendCookies from "../utils/send-cookies";
 
-
 const isObject = (value) => {
   return typeof value === 'object'
     && value !== null
@@ -20,7 +19,7 @@ const isObject = (value) => {
     && !(value instanceof Map)
 }
 
-const obtainPhoneLoginOTP = (req, res) => {
+export const obtainPhoneLoginOTP = (req, res) => {
   const reqOrg = req.params.organization;
   const validSlug = config.some((org) => {
     if (org.slug === reqOrg) {
@@ -79,62 +78,41 @@ const obtainPhoneLoginOTP = (req, res) => {
   }
 };
 
-/*
-const obtainAccessToken = (req, res) => {
+
+
+export const phoneLogin = (req, res) => {
   const reqOrg = req.params.organization;
   const validSlug = config.some((org) => {
     if (org.slug === reqOrg) {
       // merge default config and custom config
       const conf = merge(defaultConfig, org);
-      const {host} = conf;
-      const obtainAccessTokenUrl = reverse("user_auth_access_token", getSlug(conf));
-      const timeout = 15000;
-      const {username, cell_code} = req.body;
+      const {host, settings} = conf;
+      const phoneLoginUrl = reverse("phone_login_token", getSlug(conf));
+      const timeout = conf.timeout * 1000;
+      const postData = req.body; // phone_number, code
 
-      const headers = {
-        "content-type": "application/x-www-form-urlencoded",
-        "accept-language": req.headers["accept-language"],
-      };
-
-      if (req.headers.authorization)
-        headers.Authorization = req.headers.authorization;
-
-      // console.log("")
-
-      // return res.status(200).type("application/json").send({});
-
-      // make AJAX request
-      // TODO: Make real token
+      // send request
       axios({
         method: "post",
-        headers,
-        url: `${host}${obtainAccessTokenUrl}/`,
+        headers: {
+          "content-type": "application/json",
+          "accept-language": req.headers["accept-language"],
+        },
+        url: `${host}${phoneLoginUrl}/`,
         timeout,
-        data: qs.stringify({username, cell_code}),
+        data: postData,
       })
-        .then((response) => {
-          return res
-            .status(response.status)
-            .type("application/json")
-            .send(response.data);
-        })
+        .then((response) => sendCookies(response, conf, res))
         .catch((error) => {
           logResponseError(error);
+          // forward error
           try {
-            // unverified user recognized
-            if (
-              error.response.status === 401 &&
-              error.response.data.is_active
-            ) {
-              return sendCookies(error.response, conf, res);
-            }
-            // forward error
-            return res
+            res
               .status(error.response.status)
               .type("application/json")
               .send(error.response.data);
           } catch (err) {
-            return res.status(500).type("application/json").send({
+            res.status(500).type("application/json").send({
               detail: "Internal server error",
             });
           }
@@ -149,5 +127,4 @@ const obtainAccessToken = (req, res) => {
     });
   }
 };
-*/
-export default obtainPhoneLoginOTP;
+

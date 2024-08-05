@@ -188,13 +188,14 @@ export default class MobileLogin extends React.Component {
 
   async resendPhoneToken() {
     const { errors } = this.state;
+    console.log(errors);
 
     if (this.state.phone_number.length < 8)
       errors.phone_number = t`PHONE_VERIF_TITL`;
 
     this.setState({ ...this.state, errors });
 
-    if (Object.entries(errors).length > 0) {
+    if (Object.values(errors).some(errorMessage => errorMessage.length > 0)) {
       return;
     }
 
@@ -270,19 +271,35 @@ export default class MobileLogin extends React.Component {
   };
 
   handleChange(event) {
-    handleChange(event, this);
+    try { event.persist(); } catch (e) { } // workaround 
+
+    this.setState({
+      ...this.state,
+      [event.target.name]: event.target.value,
+    });
+
+    // clean errors
+    const { errors } = this.state;
+    if (errors[event.target.name])
+      delete errors[event.target.name];
+
+    if (errors.nonField)
+      delete errors.nonField;
   }
 
   handleSubmit(event, sesame_token = null) {
     const { setLoading } = this.context;
-    if (event) event.preventDefault();
+
+    if (event)
+      event.preventDefault();
+
     const { orgSlug, setUserData, language, settings } = this.props;
     const { radius_realms } = settings;
     const { phone_number, code, errors } = this.state;
     const url = phoneLoginApiUrl(orgSlug);
-    this.setState({
-      errors: {},
-    });
+
+    this.setState({ errors: {} });
+
     setLoading(true);
     if (!sesame_token) {
       this.waitToast = toast.info(t`PLEASE_WAIT`, { autoClose: 20000 });
@@ -383,6 +400,7 @@ export default class MobileLogin extends React.Component {
       redirectToPayment(orgSlug, navigate);
     }
     authenticate(true);
+    navigate(`/${orgSlug}/status`)
   };
 
   handleCheckBoxChange = (event) => {
@@ -485,12 +503,8 @@ export default class MobileLogin extends React.Component {
                       ) : (
                         <Countdown
                           date={Date.now() + resendButtonDisabledCooldown * 1000}
-                          renderer={({ seconds }) =>
-                            t`RESEND_TOKEN_WAIT_LBL${seconds}`
-                          }
-                          onComplete={() =>
-                            this.setState({ ...this.state, resendButtonDisabledCooldown: 0 })
-                          }
+                          renderer={({ seconds }) => t`RESEND_TOKEN_WAIT_LBL${seconds}`}
+                          onComplete={() => this.setState({ ...this.state, resendButtonDisabledCooldown: 0 })}
                         />
                       )}
                     </p>
@@ -533,6 +547,7 @@ export default class MobileLogin extends React.Component {
                     type="submit"
                     className="button full"
                     value={t`LOGIN`}
+                    disabled={!Boolean(resendButtonDisabledCooldown)}
                   />
                 </div>
                 {getHtml(after_html, language, "after-html")}
@@ -540,8 +555,6 @@ export default class MobileLogin extends React.Component {
             </form>
 
             {this.getRealmRadiusForm()}
-
-            <Contact />
           </div>
         </div>
         <Routes>
