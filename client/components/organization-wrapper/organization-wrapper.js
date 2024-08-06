@@ -11,13 +11,14 @@ import { t } from "ttag";
 
 import getAssetPath from "../../utils/get-asset-path";
 import Header from "../header";
+import AiryHeader from "../airy-header";
 import Footer from "../footer";
 import LoadingContext from "../../utils/loading-context";
 import Loader from "../../utils/loader";
 import needsVerify from "../../utils/needs-verify";
 import loadTranslation from "../../utils/load-translation";
 import Login from "../login";
-import MobileLogin from "../mobile-login";
+import Wifi6Login from "../wifi6-login";
 import {
   Registration,
   Status,
@@ -135,15 +136,25 @@ export default class OrganizationWrapper extends React.Component {
                 <Routes>
                   <Route
                     path="*"
-                    element={<Header location={location} params={params} />}
+                    element={<AiryHeader location={location} params={params} />}
                   />
                 </Routes>
                 <Routes>
-                  <Route
-                    path=""
-                    exact
-                    element={<Navigate to={`/${orgSlug}/login`} />}
-                  />
+                  {
+                    prefered_login_method ?
+                      <Route
+                        path=""
+                        exact
+                        element={<Navigate to={`/${orgSlug}/wifi6-login`} />}
+                      />
+                      :
+                      <Route
+                        path=""
+                        exact
+                        element={<Navigate to={`/${orgSlug}/login`} />}
+                      />
+                  }
+
                   <Route
                     path="*"
                     element={
@@ -228,10 +239,10 @@ export default class OrganizationWrapper extends React.Component {
                     }
                   />
                   <Route
-                    path="mobile-login/*"
-                    element={<MobileLogin navigate={navigate} />}
+                    path="wifi6-login/*"
+                    element={<Wifi6Login navigate={navigate} />}
                   />
-                  <Route 
+                  <Route
                     path="status"
                     element={(() => {
                       if (isAuthenticated && needsVerifyPhone)

@@ -40,7 +40,7 @@ import {
 const PhoneInput = React.lazy(() =>
   import(/* webpackChunkName: 'PhoneInput' */ "react-phone-input-2"),
 );
-export default class MobileLogin extends React.Component {
+export default class Wifi6Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -446,7 +446,8 @@ export default class MobileLogin extends React.Component {
 
   render() {
     const { errors, code, remember_me, resendButtonDisabledCooldown } = this.state;
-    const { loginForm, orgSlug, language } = this.props;
+    const { header, loginForm, orgSlug, language } = this.props;
+    const { logo, secondLogo } = header;
     const {
       links,
       buttons,
@@ -469,7 +470,30 @@ export default class MobileLogin extends React.Component {
         <div className="container content" id="login">
           <div className="inner">
             <form className="main-column" onSubmit={this.handleSubmit}>
+
               <div className="inner">
+                <div className="banner">
+                  {logo && logo.url ? (
+                    <Link to={`/${orgSlug}`}>
+                      <img
+                        src={getAssetPath(orgSlug, logo.url)}
+                        alt={logo.alternate_text}
+                        className="primary-login-logo"
+                        loading="lazy"
+                      />
+                    </Link>
+                  ) : null}
+                  {secondLogo && secondLogo.url ? (
+                    <Link to={`/${orgSlug}`}>
+                      <img
+                        src={getAssetPath(orgSlug, secondLogo.url)}
+                        alt={secondLogo.alternate_text}
+                        className="secondary-login-logo"
+                        loading="lazy"
+                      />
+                    </Link>
+                  ) : null}
+                </div>
                 {getHtml(pre_html, language, "pre-html")}
                 {getHtml(help_html, language, "help-container")}
 
@@ -568,8 +592,18 @@ export default class MobileLogin extends React.Component {
   }
 }
 
-MobileLogin.contextType = LoadingContext;
-MobileLogin.propTypes = {
+Wifi6Login.contextType = LoadingContext;
+Wifi6Login.propTypes = {
+  header: PropTypes.shape({
+    logo: PropTypes.shape({
+      alternate_text: PropTypes.string,
+      url: PropTypes.string,
+    }),
+    second_logo: PropTypes.shape({
+      alternate_text: PropTypes.string,
+      url: PropTypes.string,
+    })
+  }).isRequired,
   loginForm: PropTypes.shape({
     social_login: PropTypes.shape({
       divider_text: PropTypes.object,

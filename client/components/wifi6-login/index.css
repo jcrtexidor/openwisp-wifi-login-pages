@@ -1,0 +1,154 @@
+.register p {
+  margin-top: 0;
+  text-align: center;
+}
+
+.social-links {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.social-links p {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.social-links p:last-child {
+  margin-bottom: 10px;
+}
+
+a.social-link .inner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  min-width: 200px;
+  justify-content: center;
+}
+
+a.social-link .icon {
+  width: auto;
+  height: 24px;
+}
+
+a.social-link .text {
+  line-height: 24px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+div.remember-me {
+  margin-bottom: 0;
+}
+
+#login .intro,
+#login .ending,
+#login .pre-content {
+  width: 100%;
+}
+
+.container.intro {
+  flex-grow: 0;
+}
+
+.remember-me input {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  bottom: -2px;
+  margin-right: 7px;
+}
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  #remember_me {
+    width: 25px;
+    height: 25px;
+    bottom: -6px;
+  }
+
+  .header-mobile-menu {
+    z-index: 1;
+  }
+
+  .container .inner {
+    align-items: center;
+  }
+
+  .header-mobile-menu {
+    width: 90%;
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+}
+
+.header-language-btn {
+  text-shadow: 0 0 7px white;
+}
+
+
+
+.main-column,
+.side-column
+ {
+  width: 90%;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.large-table thead,
+.bg,
+.large-table tbody tr:nth-child(odd),
+.small-table tbody:nth-child(even) {
+  background: rgb(255, 255, 255, 0.2);
+}
+.large-table tbody tr:nth-child(even) {
+  background: rgb(200, 200, 200, 0.2);
+}
+
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+  .main-column {
+    width: 90%;
+  }
+}
+
+.login-intro-text {
+  text-align: justify;
+}
+
+.primary-login-logo {
+  width: 20em;
+  vertical-align: middle;
+}
+
+.secondary-login-logo {
+  width: 5.5em;
+  vertical-align: middle;
+}
+
+.container>.inner {
+  justify-content: space-evenly !important;
+  gap: 10px;
+}
+
+.banner {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+#sessions {
+  z-index: 1;
+}
+

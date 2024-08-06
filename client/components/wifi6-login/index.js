@@ -11,6 +11,7 @@ export const mapStateToProps = (state) => {
   loginForm.input_fields.code = conf.components.mobile_phone_verification_form.input_fields.code;
 
   return {
+    header: state.organization.configuration.components.header,
     loginForm,
     privacyPolicy: conf.privacy_policy,
     termsAndConditions: conf.terms_and_conditions,
